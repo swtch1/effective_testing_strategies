@@ -30,13 +30,6 @@ type UserDB struct {
 	db *sql.DB
 }
 
-func (udb *UserDB) AddUser(u *User) {
-	q := `INSERT INTO user (first_name, last_name)
-				VALUES (?, ?);`
-	result, _ := udb.db.Exec(q, u.FName, u.LName)
-	u.ID, _ = result.LastInsertId()
-}
-
 func (udb *UserDB) UpdateUser(u *User) {
 	q := `UPDATE user SET
 					first_name = ?,

@@ -24,13 +24,6 @@ type User struct {
 	LName string
 }
 
-func AddUser(u *User) {
-	q := `INSERT INTO user (first_name, last_name)
-				VALUES (?, ?);`
-	result, _ := db.Exec(q, u.FName, u.LName)
-	u.ID, _ = result.LastInsertId()
-}
-
 func UpdateUser(u User) {
 	q := `UPDATE user SET
 					first_name = ?,
