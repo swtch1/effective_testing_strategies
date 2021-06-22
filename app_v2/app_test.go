@@ -6,9 +6,6 @@ type UserRepoStub struct {
 	user *User
 }
 
-func (db *UserRepoStub) AddUser(u *User) {
-	db.user = u
-}
 func (db *UserRepoStub) GetUserByName(fName, lName string) User {
 	return *db.user
 }
@@ -22,11 +19,12 @@ func TestChangeUserLastName_Stub(t *testing.T) {
 	lastName := "Smith"
 	newLastName := "Brown"
 
-	stub := &UserRepoStub{}
-	stub.AddUser(&User{
-		FName: firstName,
-		LName: lastName,
-	})
+	stub := &UserRepoStub{
+		user: &User{
+			FName: firstName,
+			LName: lastName,
+		},
+	}
 
 	// update user last name
 	ChangeUserLastName(stub, firstName, lastName, newLastName)
@@ -39,27 +37,14 @@ func TestChangeUserLastName_Stub(t *testing.T) {
 }
 
 type UserRepoMock struct {
-	AddUserFn       func(u *User)
 	GetUserByNameFn func(fName, lName string) User
 	UpdateUserFn    func(u *User)
 }
 
-func (db *UserRepoMock) AddUser(u *User) {
-	if db.AddUserFn == nil {
-		return
-	}
-	db.AddUserFn(u)
-}
 func (db *UserRepoMock) GetUserByName(fName, lName string) User {
-	if db.GetUserByNameFn == nil {
-		return User{}
-	}
 	return db.GetUserByNameFn(fName, lName)
 }
 func (db *UserRepoMock) UpdateUser(u *User) {
-	if db.UpdateUserFn == nil {
-		return
-	}
 	db.UpdateUserFn(u)
 }
 
@@ -107,7 +92,7 @@ func (db *UserRepoFake) UpdateUser(u *User) {
 	db.users[u.FName+u.LName] = *u
 }
 
-func TestChangeUserLastName(t *testing.T) {
+func TestChangeUserLastName_Fake(t *testing.T) {
 	firstName := "Sarah"
 	lastName := "Smith"
 	newLastName := "Brown"
