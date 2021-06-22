@@ -8,7 +8,7 @@ func (d Dog) Speak() string {
 	return "woof"
 }
 
-type Cat struct { }
+type Cat struct{}
 
 func (c Cat) Speak() string {
 	return "meow"
