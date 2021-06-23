@@ -13,9 +13,9 @@ func main() {
 }
 
 func ChangeUserLastName(firstName, lastName, newLastName string) {
-	user := GetUserByName(firstName, lastName)
-	user.LName = newLastName
-	UpdateUser(user)
+	userFromDB := GetUserByName(firstName, lastName)
+	userFromDB.LName = newLastName
+	UpdateUser(&userFromDB)
 }
 
 type User struct {
@@ -24,7 +24,7 @@ type User struct {
 	LName string
 }
 
-func UpdateUser(u User) {
+func UpdateUser(u *User) {
 	q := `UPDATE user SET
 					first_name = ?,
 					last_name = ?
